@@ -13,26 +13,41 @@ class Graph:
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        if vertex_id not in self.vertices:
+            self.vertices[vertex_id] =set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        self.add_vertex(v1)
+        self.add_vertex(v2)
+        self._add_edge(v2,v1)
+    def _add_edge(self,v1,v2):
+        self.vertices[v1].add(v2)
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        q = Queue()
+        visited = set()
+        q.enqueue(starting_vertex)
+        while q.size() > 0:
+            dq = q.dequeue()
+            if dq not in visited:
+                n = self.get_neighbors(dq)
+                for i in n:
+                    q.enqueue(i)
+            visited.add(dq)
+        return visited
 
     def dft(self, starting_vertex):
         """
@@ -118,7 +133,7 @@ if __name__ == '__main__':
         1, 2, 4, 3, 7, 6, 5
         1, 2, 4, 3, 7, 5, 6
     '''
-    graph.bft(1)
+    print(graph.bft(1))
 
     '''
     Valid DFT paths:
@@ -142,4 +157,5 @@ if __name__ == '__main__':
         [1, 2, 4, 7, 6]
     '''
     print(graph.dfs(1, 6))
+
     print(graph.dfs_recursive(1, 6))
